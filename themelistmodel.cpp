@@ -135,8 +135,16 @@ void ThemeListModel::loadNoneTheme()
 
 void ThemeListModel::loadPlasmaThemes()
 {
-    KStandardDirs dirs;
-    const QStringList themes = dirs.findAllResources("data", "desktoptheme/*/metadata.desktop", KStandardDirs::NoDuplicates);
+    QStringList themes;
+    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "plasma/desktoptheme", QStandardPaths::LocateDirectory);
+    foreach (const QString& dir, dirs) {
+        const QStringList entries = QDir(dir).entryList(QDir::Dirs);
+        foreach (const QString& d, entries) {
+            if (QFile::exists(dir + '/' + d + "/metadata.desktop")) {
+                themes.append(dir + '/' + d + "/metadata.desktop");
+            }
+        }
+    }
 
     foreach(const QString& theme, themes) {
         QString themeRoot = theme.left(theme.lastIndexOf('/', -1));
@@ -152,13 +160,11 @@ void ThemeListModel::loadFileThemes()
 {
     // load local themes
     QString themeFolder = KIMToySettings::self()->themeFolder().path();
-//     kWarning() << themeFolder;
     QDir dir(themeFolder);
     QFileInfoList es = dir.entryInfoList(QStringList() << "*.fskin" << "*.ssf");
 
     // load downloaded themes
-    QString knsFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "themes/";
-//     kWarning() << knsFolder;
+    QString knsFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/themes/";
     if (knsFolder != themeFolder) {
         QDir knsThemeDir(knsFolder);
         es << knsThemeDir.entryInfoList(QStringList() << "*.fskin" << "*.ssf");
