@@ -27,6 +27,7 @@
 
 #include <KDebug>
 #include <KProcess>
+#include <KUrl>
 
 #include "envsettings.h"
 

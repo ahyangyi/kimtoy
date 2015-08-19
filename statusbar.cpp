@@ -107,7 +107,7 @@ StatusBar::StatusBar()
     connect(configureIMAction, SIGNAL(triggered()), this, SLOT(slotConfigureIMTriggered()));
     m_tray->contextMenu()->addAction(configureIMAction);
 
-    KAction* prefAction = KStandardAction::preferences(this, SLOT(preferences()), 0);
+    QAction* prefAction = KStandardAction::preferences(this, SLOT(preferences()), 0);
     m_tray->contextMenu()->addAction(prefAction);
 
     KAction* aboutAction = new KAction(KIcon("draw-freehand"), i18n("&About KIMToy..."), this);
@@ -493,7 +493,7 @@ void StatusBar::preferences()
 
 void StatusBar::slotAboutActionTriggered()
 {
-    KAboutApplicationDialog dlg(KGlobal::mainComponent().aboutData());
+    KAboutApplicationDialog dlg(KAboutData::applicationData());
     dlg.exec();
 }
 

@@ -230,9 +230,9 @@ void ThemeListModel::generatePreviews()
             plasmaTheme.setThemeName(e.mid(10));
 
             const QString imagePath = plasmaTheme.imagePath("widgets/background");
-            QFont preEditFont = plasmaTheme.font(Plasma::Theme::DefaultFont);
-            QFont labelFont = plasmaTheme.font(Plasma::Theme::DesktopFont);
-            QFont candidateFont = plasmaTheme.font(Plasma::Theme::DefaultFont);
+            QFont preEditFont = plasmaTheme.defaultFont();
+            QFont labelFont = plasmaTheme.smallestFont();
+            QFont candidateFont = plasmaTheme.defaultFont();
             int preEditFontHeight = QFontMetrics(preEditFont).height();
             int labelFontHeight = QFontMetrics(labelFont).height();
             int candidateFontHeight = QFontMetrics(candidateFont).height();

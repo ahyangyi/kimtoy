@@ -25,6 +25,7 @@
 #include <KIO/CopyJob>
 #include <KLocale>
 #include <KMessageBox>
+#include <KUrl>
 #include <knewstuff3/downloaddialog.h>
 
 #include "kimtoysettings.h"

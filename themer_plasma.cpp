@@ -28,7 +28,7 @@
 
 #include <KIconLoader>
 #include <Plasma/Theme>
-#include <Plasma/WindowEffects>
+#include <KWindowEffects>
 
 #include "preeditbar.h"
 #include "propertywidget.h"
@@ -72,9 +72,9 @@ bool ThemerPlasma::loadTheme()
     m_preeditBarSvg.setImagePath(imagePath);
     m_preeditBarSvg.setEnabledBorders(Plasma::FrameSvg::AllBorders);
 
-    m_preEditFont = plasmaTheme.font(Plasma::Theme::DefaultFont);
-    m_labelFont = plasmaTheme.font(Plasma::Theme::DesktopFont);
-    m_candidateFont = plasmaTheme.font(Plasma::Theme::DefaultFont);
+    m_preEditFont = plasmaTheme.defaultFont();
+    m_labelFont = plasmaTheme.smallestFont();
+    m_candidateFont = plasmaTheme.defaultFont();
 
     m_preEditFontHeight = QFontMetrics(m_preEditFont).height();
     m_labelFontHeight = QFontMetrics(m_labelFont).height();
@@ -204,12 +204,12 @@ void ThemerPlasma::maskPropertyWidget(PropertyWidget* widget)
 
 void ThemerPlasma::blurPreEditBar(PreEditBar* widget)
 {
-    Plasma::WindowEffects::enableBlurBehind(widget->winId(), true, m_preeditBarSvg.mask());
+    KWindowEffects::enableBlurBehind(widget->winId(), true, m_preeditBarSvg.mask());
 }
 
 void ThemerPlasma::blurStatusBar(StatusBar* widget)
 {
-    Plasma::WindowEffects::enableBlurBehind(widget->winId(), true, m_statusBarSvg.mask());
+    KWindowEffects::enableBlurBehind(widget->winId(), true, m_statusBarSvg.mask());
 }
 
 void ThemerPlasma::drawPreEditBar(PreEditBar* widget)

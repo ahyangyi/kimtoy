@@ -4,7 +4,12 @@ set(ssfthumbnail_SRCS ssfcreator.cpp ../kssf.cpp)
 
 kde4_add_plugin(ssfthumbnail ${ssfthumbnail_SRCS})
 target_link_libraries(ssfthumbnail
-    ${KDE4_KIO_LIBS}
+    Qt5::Core
+    Qt5::Gui
+    KF5::Archive
+    KF5::KIOCore
+    KF5::KIOWidgets
+    KF5::KDELibs4Support
     ${OPENSSL_LIBRARIES}
 )
 
@@ -17,7 +22,11 @@ set(fskinthumbnail_SRCS fskincreator.cpp)
 
 kde4_add_plugin(fskinthumbnail ${fskinthumbnail_SRCS})
 target_link_libraries(fskinthumbnail
-    ${KDE4_KIO_LIBS}
+    Qt5::Core
+    Qt5::Gui
+    KF5::Archive
+    KF5::KIOCore
+    KF5::KIOWidgets
 )
 
 install(TARGETS fskinthumbnail DESTINATION ${PLUGIN_INSTALL_DIR})

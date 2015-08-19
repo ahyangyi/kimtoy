@@ -1,14 +1,21 @@
+cmake_minimum_required(VERSION 2.8.12)
 project(kimtoy)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+find_package(ECM REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-find_package(KDE4 REQUIRED 4.5)
-include(KDE4Defaults)
-include(MacroLibrary)
-include(MacroLogFeature)
+include(KDEInstallDirs)
+include(KDECompilerSettings)
+include(KDECMakeSettings)
+
+set(REQUIRED_QT_VERSION 5.0.0)
+find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui X11Extras)
+set(KF5_MIN_VERSION 5.0.0)
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Plasma KDELibs4Support NewStuff KIO)
+find_package(X11)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-include_directories(${QT_INCLUDES} ${KDE4_INCLUDES})
+include_directories(${QT_INCLUDES} ${KF5_INCLUDES} ${KDE4_INCLUDES})
 include_directories(${X11_X11_INCLUDE_PATH})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -17,36 +24,10 @@ add_definitions(-Wall -Wextra)
 set(SHARED_MIME_INFO_MINIMUM_VERSION "0.30")
 find_package(SharedMimeInfo REQUIRED)
 
-macro_optional_find_package(GLIB2)
-macro_log_feature(GLIB2_FOUND "glib2" "ibus support" "http://www.gtk.org")
-
-macro_optional_find_package(GIO)
-macro_log_feature(GIO_FOUND "gio" "ibus support" "http://www.gtk.org")
-
-macro_optional_find_package(GObject)
-macro_log_feature(GOBJECT_FOUND "gobject" "ibus support" "http://www.gtk.org")
-
-macro_optional_find_package(IBus)
-macro_log_feature(IBUS_FOUND "ibus" "ibus support" "http://code.google.com/p/ibus")
-
-macro_optional_find_package(Pthread)
-macro_log_feature(PTHREAD_LIB_FOUND "pthread" "scim support" "")
-
-macro_optional_find_package(DBusCXX)
-macro_log_feature(DBUSCXX_FOUND "dbus-c++" "scim support" "http://dbus-cplusplus.sourceforge.net")
-
-macro_optional_find_package(SCIM)
-macro_log_feature(SCIM_FOUND "scim" "scim support" "http://www.scim-im.org")
-
-macro_optional_find_package(Strigi)
-macro_log_feature(STRIGI_FOUND "strigi" "strigi analyzer" "http://www.vandenoever.info/software/strigi")
-
 find_package(OpenSSL REQUIRED)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
 ############# check if libpng has apng support #############
-
-macro_optional_find_package(PNG)
 
 if(PNG_FOUND)
     include(CheckCSourceCompiles)
@@ -72,8 +53,6 @@ if(${PNG_HAS_APNG_SUPPORT})
 else(${PNG_HAS_APNG_SUPPORT})
     message("-- Using internal PNG")
 endif(${PNG_HAS_APNG_SUPPORT})
-
-macro_log_feature(PNG_HAS_APNG_SUPPORT "libpng-apng" "animated png support from system libpng" "http://libpng-apng.sf.net")
 
 ###################### ibus arguments ######################
 ### NOTE TODO remove following definition when ibus is able to run registered component
@@ -132,11 +111,12 @@ kde4_add_kcfg_files(kimtoy_SRCS kimtoysettings.kcfgc)
 kde4_add_executable(kimtoy ${kimtoy_SRCS})
 
 target_link_libraries(kimtoy
-    ${KDE4_KDECORE_LIBS}
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KIO_LIBS}
-    ${KDE4_PLASMA_LIBS}
-    ${KDE4_KNEWSTUFF3_LIBS}
+    Qt5::X11Extras
+    KF5::Archive
+    KF5::ConfigWidgets
+    KF5::KDELibs4Support
+    KF5::Plasma
+    KF5::NewStuff
     ${OPENSSL_LIBRARIES}
     ${X11_X11_LIB}
 )
@@ -159,5 +139,3 @@ add_subdirectory(ibus-panel)
 ########################## scim glue ##########################
 add_subdirectory(scim-kconfig)
 add_subdirectory(scim-panel)
-
-macro_display_feature_log()

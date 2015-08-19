@@ -610,6 +610,8 @@ public:
     virtual QStringList keys() const;
     virtual Capabilities capabilities(QIODevice* device, const QByteArray& format) const;
     virtual QImageIOHandler* create(QIODevice* device, const QByteArray& format = QByteArray()) const;
+
+    Q_PLUGIN_METADATA(IID "org.kde-apps.content.show.php.content140967.QAPngPlugin")
 };
 
 QStringList QAPngPlugin::keys() const
@@ -637,6 +639,3 @@ QImageIOHandler* QAPngPlugin::create(QIODevice* device, const QByteArray& format
     handler->setFormat(format);
     return handler;
 }
-
-Q_EXPORT_STATIC_PLUGIN(QAPngPlugin)
-Q_EXPORT_PLUGIN2(qapng, QAPngPlugin)

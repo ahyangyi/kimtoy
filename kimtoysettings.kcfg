@@ -140,7 +140,7 @@
         </entry>
         <entry name="ThemeUri" type="String">
             <default code="true">
-                QString("__plasma__") + Plasma::Theme::defaultTheme()->themeName()
+                QString("__plasma__") + Plasma::Theme().themeName()
             </default>
         </entry>
     </group>
