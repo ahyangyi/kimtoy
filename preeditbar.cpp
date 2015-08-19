@@ -119,9 +119,9 @@ void PreEditBar::resizeEvent(QResizeEvent* event)
 void PreEditBar::showEvent(QShowEvent* event)
 {
 //     Plasma::WindowEffects::overrideShadow(winId(), true);
-    Display* dpy = QX11Info::display();
-    Atom atom = XInternAtom(dpy, "_KDE_NET_WM_SHADOW", False);
-    XDeleteProperty(dpy, winId(), atom);
+///    Display* dpy = QX11Info::display();
+///    Atom atom = XInternAtom(dpy, "_KDE_NET_WM_SHADOW", False);
+///    XDeleteProperty(dpy, winId(), atom);
 }
 
 void PreEditBar::paintEvent(QPaintEvent* event)
