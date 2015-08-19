@@ -45,6 +45,7 @@
 #include <KStatusNotifierItem>
 #include <KToggleAction>
 #include <KWindowSystem>
+#include <KSharedConfig>
 
 #include "animator.h"
 #include "filtermenu.h"
@@ -143,7 +144,7 @@ StatusBar::StatusBar()
     connection.connect("", "/kimpanel", "org.kde.kimpanel.inputmethod", "ExecMenu",
                        this, SLOT(slotExecMenu(const QStringList&)));
 
-    KConfigGroup group(KGlobal::config(), "General");
+    KConfigGroup group(KSharedConfig::openConfig(), "General");
     QPoint pos = group.readEntry("XYPosition", QPoint(100, 0));
     move(pos);
 
@@ -161,7 +162,7 @@ StatusBar::StatusBar()
 
 StatusBar::~StatusBar()
 {
-    KConfigGroup group(KGlobal::config(), "General");
+    KConfigGroup group(KSharedConfig::openConfig(), "General");
     group.writeEntry("XYPosition", pos());
     group.writeEntry("Filters", m_filters);
     delete m_preeditBar;

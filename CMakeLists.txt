@@ -11,7 +11,7 @@ include(KDECMakeSettings)
 set(REQUIRED_QT_VERSION 5.0.0)
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui X11Extras)
 set(KF5_MIN_VERSION 5.0.0)
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Plasma KDELibs4Support NewStuff KIO)
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Plasma KDELibs4Support NewStuff KIO Config)
 find_package(X11)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
@@ -26,6 +26,16 @@ find_package(SharedMimeInfo REQUIRED)
 
 find_package(OpenSSL REQUIRED)
 include_directories(${OPENSSL_INCLUDE_DIR})
+
+find_package(GLIB2)
+find_package(GIO)
+find_package(GObject)
+find_package(IBus)
+find_package(Pthread)
+find_package(DBusCXX)
+find_package(SCIM)
+find_package(Strigi)
+find_package(PNG)
 
 ############# check if libpng has apng support #############
 

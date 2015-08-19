@@ -33,10 +33,11 @@
 #include <KFileItem>
 #include <KUrl>
 #include <KIO/PreviewJob>
-#include <KStandardDirs>
+
 
 #include <Plasma/FrameSvg>
 #include <Plasma/Theme>
+#include <QStandardPaths>
 
 #include "kimtoysettings.h"
 
@@ -156,7 +157,7 @@ void ThemeListModel::loadFileThemes()
     QFileInfoList es = dir.entryInfoList(QStringList() << "*.fskin" << "*.ssf");
 
     // load downloaded themes
-    QString knsFolder = KStandardDirs::locateLocal("appdata", "themes/");
+    QString knsFolder = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "themes/";
 //     kWarning() << knsFolder;
     if (knsFolder != themeFolder) {
         QDir knsThemeDir(knsFolder);
