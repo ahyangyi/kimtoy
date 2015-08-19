@@ -61,9 +61,8 @@ bool ThemerPlasma::loadTheme()
 {
     QString themeUri = KIMToySettings::self()->themeUri();
 
-    Plasma::Theme plasmaTheme;
     // "__plasma__" + themeName
-    plasmaTheme.setThemeName(themeUri.mid(10));
+    Plasma::Theme plasmaTheme(themeUri.mid(10));
 
     const QString imagePath = plasmaTheme.imagePath("widgets/background");
     m_statusBarSvg.setImagePath(imagePath);

@@ -233,8 +233,7 @@ void ThemeListModel::generatePreviews()
             m_previews[ e ] = preview;
         }
         else if (e.startsWith("__plasma__")) {
-            Plasma::Theme plasmaTheme;
-            plasmaTheme.setThemeName(e.mid(10));
+            Plasma::Theme plasmaTheme(e.mid(10));
 
             const QString imagePath = plasmaTheme.imagePath("widgets/background");
             QFont preEditFont = plasmaTheme.defaultFont();
