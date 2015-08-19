@@ -22,7 +22,6 @@
 #include "propertywidget.h"
 
 #include <QMouseEvent>
-#include <QIcon>
 
 #include "themeragent.h"
 

@@ -25,7 +25,6 @@
 #include <QWidget>
 #include <QHash>
 
-class QPushButton;
 class QSignalMapper;
 class KStatusNotifierItem;
 

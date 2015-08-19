@@ -30,7 +30,6 @@
 
 #include <QByteArray>
 #include <QString>
-#include <QStringList>
 #include <QTextStream>
 
 const std::string typeFieldName("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");

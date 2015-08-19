@@ -26,11 +26,8 @@
 #include <QDesktopWidget>
 #include <QMouseEvent>
 #include <QResizeEvent>
-#include <QSizePolicy>
-#include <QVBoxLayout>
 
 #include <KDebug>
-#include <KLocale>
 #include <KWindowSystem>
 
 #include "themeragent.h"

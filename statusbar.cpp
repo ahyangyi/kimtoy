@@ -29,23 +29,20 @@
 #include <QSignalMapper>
 
 #include <KAboutApplicationDialog>
+#include <KAboutData>
 #include <KAction>
-#include <KActionCollection>
-#include <KApplication>
 #include <KConfig>
 #include <KConfigDialog>
 #include <KConfigGroup>
 #include <KDebug>
-#include <KGlobal>
-#include <QIcon>
 #include <KLocale>
-#include <KMenu>
 #include <KMessageBox>
+#include <KSharedConfig>
 #include <KStandardAction>
 #include <KStatusNotifierItem>
 #include <KToggleAction>
 #include <KWindowSystem>
-#include <KSharedConfig>
+#include <QIcon>
 
 #include "animator.h"
 #include "filtermenu.h"

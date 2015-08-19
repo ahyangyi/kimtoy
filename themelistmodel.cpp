@@ -24,7 +24,6 @@
 #include <QApplication>
 #include <QDir>
 #include <QDebug>
-#include <QIcon>
 #include <QFileInfo>
 #include <QPainter>
 #include <QStyle>

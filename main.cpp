@@ -19,7 +19,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <KAboutData>
 #include <K4AboutData>
 #include <KCmdLineArgs>
 #include <KDebug>

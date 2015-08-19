@@ -30,7 +30,6 @@
 
 #include <QDebug>
 #include <QImage>
-#include <QVector>
 #include <QVariant>
 
 #include <qbytearray.h>

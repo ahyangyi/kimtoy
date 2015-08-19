@@ -24,7 +24,6 @@
 #include <QByteArray>
 #include <QDataStream>
 #include <QDebug>
-#include <QFile>
 
 // ase decrypt
 #include <openssl/aes.h>

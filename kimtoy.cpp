@@ -24,8 +24,6 @@
 #include <QTimer>
 
 #include <KDebug>
-#include <KGlobal>
-#include <KLocale>
 
 #include "envsettings.h"
 #include "inputmethods.h"
