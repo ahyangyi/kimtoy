@@ -29,7 +29,7 @@
 #include <QStyle>
 #include <QStyleOptionMenuItem>
 #include <QVBoxLayout>
-#include <KIcon>
+#include <QIcon>
 
 #include "propertywidget.h"
 
@@ -54,7 +54,7 @@ FilterMenu::~FilterMenu()
 
 void FilterMenu::addEntry(const QString& objectPath, const PropertyWidget* pw, bool checked)
 {
-    QAction* act = new QAction(KIcon(pw->iconName()), pw->name(), this);
+    QAction* act = new QAction(QIcon::fromTheme(pw->iconName()), pw->name(), this);
     act->setCheckable(true);
     act->setChecked(checked);
     act->setData(objectPath);

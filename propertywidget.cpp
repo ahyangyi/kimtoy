@@ -22,7 +22,7 @@
 #include "propertywidget.h"
 
 #include <QMouseEvent>
-#include <KIcon>
+#include <QIcon>
 
 #include "themeragent.h"
 
