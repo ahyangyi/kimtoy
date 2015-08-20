@@ -33,17 +33,17 @@
 
 #include "kimtoysettings.h"
 
-static bool isProgramExists(const KUrl& cmdPath)
+static bool isProgramExists(const QUrl& cmdPath)
 {
     return KProcess::execute("which", QStringList() << cmdPath.fileName()) == 0;
 }
 
-static bool isProcessRunning(const KUrl& cmdPath)
+static bool isProcessRunning(const QUrl& cmdPath)
 {
     return KProcess::execute("ps", QStringList() << "-C" << cmdPath.fileName()) == 0;
 }
 
-static void killProcess(const KUrl& cmdPath)
+static void killProcess(const QUrl& cmdPath)
 {
     KProcess::startDetached("killall", QStringList() << "-9" << cmdPath.fileName());
 }
@@ -68,7 +68,7 @@ FcitxInputMethod::~FcitxInputMethod()
 
 void FcitxInputMethod::run()
 {
-    KUrl fcitxCmd = KIMToySettings::self()->fcitxCmd();
+    QUrl fcitxCmd = KIMToySettings::self()->fcitxCmd();
     if (isProcessRunning(fcitxCmd)) {
         return;
     }
@@ -78,7 +78,7 @@ void FcitxInputMethod::run()
         args = KIMToySettings::self()->fcitxArgs().split(' ');
 
     KProcess p;
-    p.setProgram(fcitxCmd.pathOrUrl(), args);
+    p.setProgram(fcitxCmd.url(QUrl::PreferLocalFile), args);
     p.startDetached();
 }
 
@@ -99,7 +99,7 @@ void FcitxInputMethod::saveEnvSettings() const
 
 bool FcitxInputMethod::getVersion(QString& version) const
 {
-    KUrl fcitxCmd = KIMToySettings::self()->fcitxCmd();
+    QUrl fcitxCmd = KIMToySettings::self()->fcitxCmd();
     if (!isProgramExists(fcitxCmd)) {
         return false;
     }
@@ -107,7 +107,7 @@ bool FcitxInputMethod::getVersion(QString& version) const
     KProcess p;
     p.setReadChannel(QProcess::StandardOutput);
     p.setOutputChannelMode(KProcess::SeparateChannels);
-    p.setProgram(fcitxCmd.pathOrUrl(), QStringList() << "-v");
+    p.setProgram(fcitxCmd.url(QUrl::PreferLocalFile), QStringList() << "-v");
     p.start();
     p.waitForFinished();
     QByteArray data = p.readAllStandardOutput();
@@ -144,7 +144,7 @@ IBusInputMethod::~IBusInputMethod()
 
 void IBusInputMethod::run()
 {
-    KUrl iBusCmd = KIMToySettings::self()->iBusCmd();
+    QUrl iBusCmd = KIMToySettings::self()->iBusCmd();
 
     QStringList args;
     if (!KIMToySettings::self()->iBusArgs().isEmpty())
@@ -155,7 +155,7 @@ void IBusInputMethod::run()
     }
 
     KProcess p;
-    p.setProgram(iBusCmd.pathOrUrl(), args);
+    p.setProgram(iBusCmd.url(QUrl::PreferLocalFile), args);
     p.startDetached();
 }
 
@@ -176,7 +176,7 @@ void IBusInputMethod::saveEnvSettings() const
 
 bool IBusInputMethod::getVersion(QString& version) const
 {
-    KUrl iBusCmd = KIMToySettings::self()->iBusCmd();
+    QUrl iBusCmd = KIMToySettings::self()->iBusCmd();
     if (!isProgramExists(iBusCmd)) {
         return false;
     }
@@ -184,7 +184,7 @@ bool IBusInputMethod::getVersion(QString& version) const
     KProcess p;
     p.setReadChannel(QProcess::StandardOutput);
     p.setOutputChannelMode(KProcess::SeparateChannels);
-    p.setProgram(iBusCmd.pathOrUrl(), QStringList() << "-V");
+    p.setProgram(iBusCmd.url(QUrl::PreferLocalFile), QStringList() << "-V");
     p.start();
     p.waitForFinished();
     QByteArray data = p.readAllStandardOutput();
@@ -221,7 +221,7 @@ SCIMInputMethod::~SCIMInputMethod()
 
 void SCIMInputMethod::run()
 {
-    KUrl sCIMCmd = KIMToySettings::self()->sCIMCmd();
+    QUrl sCIMCmd = KIMToySettings::self()->sCIMCmd();
     if (isProcessRunning(sCIMCmd)) {
         return;
     }
@@ -239,7 +239,7 @@ void SCIMInputMethod::run()
         args = KIMToySettings::self()->sCIMArgs().split(' ');
 
     KProcess p;
-    p.setProgram(sCIMCmd.pathOrUrl(), args);
+    p.setProgram(sCIMCmd.url(QUrl::PreferLocalFile), args);
     p.startDetached();
 }
 
@@ -260,7 +260,7 @@ void SCIMInputMethod::saveEnvSettings() const
 
 bool SCIMInputMethod::getVersion(QString& version) const
 {
-    KUrl sCIMCmd = KIMToySettings::self()->sCIMCmd();
+    QUrl sCIMCmd = KIMToySettings::self()->sCIMCmd();
     if (!isProgramExists(sCIMCmd)) {
         return false;
     }
@@ -268,7 +268,7 @@ bool SCIMInputMethod::getVersion(QString& version) const
     KProcess p;
     p.setReadChannel(QProcess::StandardOutput);
     p.setOutputChannelMode(KProcess::SeparateChannels);
-    p.setProgram(sCIMCmd.pathOrUrl(), QStringList() << "-v");
+    p.setProgram(sCIMCmd.url(QUrl::PreferLocalFile), QStringList() << "-v");
     p.start();
     p.waitForFinished();
     QByteArray data = p.readAllStandardOutput();

@@ -140,17 +140,14 @@ void ThemeListModel::loadPlasmaThemes()
         const QStringList entries = QDir(dir).entryList(QDir::Dirs);
         foreach (const QString& d, entries) {
             if (QFile::exists(dir + '/' + d + "/metadata.desktop")) {
-                themes.append(dir + '/' + d + "/metadata.desktop");
+                themes.append(d);
             }
         }
     }
 
     foreach(const QString& theme, themes) {
-        QString themeRoot = theme.left(theme.lastIndexOf('/', -1));
-        QString themeName = themeRoot.mid(themeRoot.lastIndexOf('/', -1) + 1);
-
         beginInsertRows(QModelIndex(), m_themes.count(), m_themes.count());
-        m_themes << "__plasma__" + themeName;
+        m_themes << "__plasma__" + theme;
         endInsertRows();
     }
 }
@@ -306,13 +303,13 @@ void ThemeListModel::generatePreviews()
 
 void ThemeListModel::addPreview(const KFileItem& item, const QPixmap& preview)
 {
-// qWarning() << "addPreview" << item.localPath();
+qWarning() << "addPreview" << item.localPath();
     m_previews[ item.localPath() ] = preview;
 }
 
 void ThemeListModel::failed(const KFileItem& item)
 {
-// qWarning() << "failed" << item.localPath() << m_previewJob->errorString();
+qWarning() << "failed" << item.localPath() << m_previewJob->errorString();
 //     QPixmap preview( m_previewWidth, 40 );
 //     m_previews[ item.localPath() ] = preview;
 }

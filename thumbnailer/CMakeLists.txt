@@ -2,7 +2,7 @@
 ########## ssf thumbnailer ##########
 set(ssfthumbnail_SRCS ssfcreator.cpp ../kssf.cpp)
 
-kde4_add_plugin(ssfthumbnail ${ssfthumbnail_SRCS})
+add_library(ssfthumbnail MODULE ${ssfthumbnail_SRCS})
 target_link_libraries(ssfthumbnail
     Qt5::Core
     Qt5::Gui
@@ -20,7 +20,7 @@ install(FILES ssf.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
 ########## fskin thumbnailer ##########
 set(fskinthumbnail_SRCS fskincreator.cpp)
 
-kde4_add_plugin(fskinthumbnail ${fskinthumbnail_SRCS})
+add_library(fskinthumbnail MODULE ${fskinthumbnail_SRCS})
 target_link_libraries(fskinthumbnail
     Qt5::Core
     Qt5::Gui

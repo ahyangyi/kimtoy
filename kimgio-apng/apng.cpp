@@ -603,21 +603,6 @@ bool QAPngHandler::supportsOption(ImageOption option) const
         || option == Size;
 }
 
-class QAPngPlugin : public QImageIOPlugin
-{
-public:
-    virtual QStringList keys() const;
-    virtual Capabilities capabilities(QIODevice* device, const QByteArray& format) const;
-    virtual QImageIOHandler* create(QIODevice* device, const QByteArray& format = QByteArray()) const;
-
-    Q_PLUGIN_METADATA(IID "org.kde-apps.content.show.php.content140967.QAPngPlugin")
-};
-
-QStringList QAPngPlugin::keys() const
-{
-    return QStringList() << "apng";
-}
-
 QImageIOPlugin::Capabilities QAPngPlugin::capabilities(QIODevice* device, const QByteArray& format) const
 {
     if (!device)

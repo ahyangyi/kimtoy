@@ -21,6 +21,7 @@
 
 #include "themer_plasma.h"
 
+#include <QApplication>
 #include <QBitmap>
 #include <QPainter>
 #include <QPainterPath>

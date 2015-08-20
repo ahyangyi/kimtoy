@@ -25,6 +25,7 @@
 #include <QDBusConnection>
 #include <QDesktopWidget>
 #include <QMouseEvent>
+#include <QPainter>
 #include <QResizeEvent>
 
 #include <KDebug>
@@ -39,9 +40,10 @@
 
 PreEditBar::PreEditBar()
 {
-    setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
+    setWindowFlags(/*Qt::ToolTip | */Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::BypassWindowManagerHint);
     KWindowSystem::setState(winId(), NET::SkipTaskbar | NET::SkipPager | NET::KeepAbove);
     KWindowSystem::setType(winId(), NET::Tooltip);
+//     setAttribute(Qt::WA_X11NetWmWindowTypeToolTip);
 
     installEventFilter(this);
 
@@ -124,6 +126,12 @@ void PreEditBar::showEvent(QShowEvent* event)
 void PreEditBar::paintEvent(QPaintEvent* event)
 {
     Q_UNUSED(event);
+
+    QPainter p(this);
+    p.setCompositionMode(QPainter::CompositionMode_Clear);
+    p.fillRect(rect(), Qt::transparent);
+    p.end();
+
     ThemerAgent::drawPreEditBar(this);
 }
 

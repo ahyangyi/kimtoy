@@ -1,17 +1,40 @@
-cmake_minimum_required(VERSION 2.8.12)
 project(kimtoy)
 
-find_package(ECM REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+cmake_minimum_required(VERSION 2.8.12)
 
+set(KDE_INSTALL_USE_QT_SYS_PATHS ON)
+
+find_package(ECM 1.2.0 REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+include(CheckIncludeFile)
 include(KDEInstallDirs)
 include(KDECompilerSettings)
 include(KDECMakeSettings)
+include(ECMInstallIcons)
+include(FeatureSummary)
 
-set(REQUIRED_QT_VERSION 5.0.0)
-find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Gui X11Extras)
-set(KF5_MIN_VERSION 5.0.0)
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive Plasma KDELibs4Support NewStuff KIO Config)
+find_package(Qt5 5.3.0 CONFIG REQUIRED
+    Core
+    DBus
+    Gui
+    Widgets
+    X11Extras
+)
+find_package(KF5 5.2.0 REQUIRED
+    Archive
+    Config
+    ConfigWidgets
+    CoreAddons
+    I18n
+    KIO
+    NewStuff
+    Plasma
+    WidgetsAddons
+    WindowSystem
+    
+    KDELibs4Support
+)
 find_package(X11)
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
@@ -28,16 +51,31 @@ find_package(OpenSSL REQUIRED)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
 find_package(GLIB2)
-find_package(GIO)
-find_package(GObject)
-find_package(IBus)
-find_package(Pthread)
-find_package(DBusCXX)
-find_package(SCIM)
-find_package(Strigi)
-find_package(PNG)
+set_package_properties(GLIB2 PROPERTIES DESCRIPTION "glib2" URL "http://www.gtk.org" PURPOSE "ibus support" TYPE OPTIONAL)
 
-############# check if libpng has apng support #############
+find_package(GIO)
+set_package_properties(GIO PROPERTIES DESCRIPTION "gio" URL "http://www.gtk.org" PURPOSE "ibus support" TYPE OPTIONAL)
+
+find_package(GObject)
+set_package_properties(GObject PROPERTIES DESCRIPTION "gobject" URL "http://www.gtk.org" PURPOSE "ibus support" TYPE OPTIONAL)
+
+find_package(IBus)
+set_package_properties(IBus PROPERTIES DESCRIPTION "ibus" URL "http://code.google.com/p/ibus" PURPOSE "ibus support" TYPE OPTIONAL)
+
+find_package(Pthread)
+set_package_properties(Pthread PROPERTIES DESCRIPTION "pthread" PURPOSE "scim support" TYPE OPTIONAL)
+
+find_package(DBusCXX)
+set_package_properties(DBusCXX PROPERTIES DESCRIPTION "dbus-c++" URL "http://dbus-cplusplus.sourceforge.net" PURPOSE "scim support" TYPE OPTIONAL)
+
+find_package(SCIM)
+set_package_properties(SCIM PROPERTIES DESCRIPTION "scim" URL "http://www.scim-im.org" PURPOSE "scim support" TYPE OPTIONAL)
+
+find_package(Strigi)
+set_package_properties(Strigi PROPERTIES DESCRIPTION "strigi" URL "http://www.vandenoever.info/software/strigi" PURPOSE "strigi analyzer" TYPE OPTIONAL)
+
+find_package(PNG)
+set_package_properties(PNG PROPERTIES DESCRIPTION "libpng-apng" URL "http://libpng-apng.sf.net" PURPOSE "animated png support from system libpng" TYPE OPTIONAL)
 
 if(PNG_FOUND)
     include(CheckCSourceCompiles)
@@ -74,6 +112,16 @@ endif(IBUS_FOUND)
 
 ########################## kimtoy ##########################
 
+add_definitions(
+#     -DQT_USE_QSTRINGBUILDER
+#     -DQT_NO_CAST_TO_ASCII
+#     -DQT_STRICT_ITERATORS
+#     -DQT_NO_URL_CAST_FROM_STRING
+#     -DQT_NO_CAST_FROM_BYTEARRAY
+#     -DQT_NO_SIGNALS_SLOTS_KEYWORDS
+#     -DQT_USE_FAST_OPERATOR_PLUS
+)
+
 set(kimtoy_SRCS
     animator.cpp
     envsettings.cpp
@@ -101,14 +149,14 @@ set(kimtoy_SRCS
     themeragent.cpp
 )
 
-kde4_add_ui_files(kimtoy_SRCS
+ki18n_wrap_ui(kimtoy_SRCS
     appearance.ui
     inputmethod.ui
     theme.ui
     performance.ui
 )
 
-qt4_add_dbus_adaptor(kimtoy_SRCS
+qt5_add_dbus_adaptor(kimtoy_SRCS
     org.kde.impanel.xml
     impanel.h
     IMPanel
@@ -116,19 +164,20 @@ qt4_add_dbus_adaptor(kimtoy_SRCS
     IMPanelAdaptor
 )
 
-kde4_add_kcfg_files(kimtoy_SRCS kimtoysettings.kcfgc)
+kconfig_add_kcfg_files(kimtoy_SRCS kimtoysettings.kcfgc)
 
-kde4_add_executable(kimtoy ${kimtoy_SRCS})
+add_executable(kimtoy ${kimtoy_SRCS})
 
 target_link_libraries(kimtoy
-    Qt5::X11Extras
     KF5::Archive
     KF5::ConfigWidgets
     KF5::KDELibs4Support
-    KF5::Plasma
     KF5::NewStuff
+    KF5::Plasma
+    Qt5::X11Extras
     ${OPENSSL_LIBRARIES}
     ${X11_X11_LIB}
+    X11
 )
 
 install(TARGETS kimtoy ${INSTALL_TARGETS_DEFAULT_ARGS})
@@ -137,15 +186,17 @@ install(PROGRAMS kimtoy.desktop DESTINATION ${AUTOSTART_INSTALL_DIR})
 install(FILES kimtoy.knsrc DESTINATION ${CONFIG_INSTALL_DIR})
 # install(FILES org.kde.impanel.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 
-add_subdirectory(thumbnailer)
-add_subdirectory(strigi-analyzer)
+# add_subdirectory(thumbnailer)
+# add_subdirectory(strigi-analyzer)
 # add_subdirectory(po)
 
 ######################### apng plugin #########################
 add_subdirectory(kimgio-apng)
 ########################## ibus glue ##########################
-add_subdirectory(ibus-kconfig)
-add_subdirectory(ibus-panel)
+# add_subdirectory(ibus-kconfig)
+# add_subdirectory(ibus-panel)
 ########################## scim glue ##########################
 add_subdirectory(scim-kconfig)
 add_subdirectory(scim-panel)
+
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
