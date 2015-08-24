@@ -73,20 +73,18 @@ static void extractProperty(const QString& str,
 
 StatusBar::StatusBar()
 {
-    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::BypassWindowManagerHint);
-    KWindowSystem::setState(winId(), NET::SkipTaskbar | NET::SkipPager | NET::KeepAbove);
-    KWindowSystem::setType(winId(), NET::Dock);
-
     ThemerAgent::loadSettings();
+    bool enableTransparency = KIMToySettings::self()->backgroundTransparency();
 
     m_preeditBar = new PreEditBar;
-
-    bool enableTransparency = KIMToySettings::self()->backgroundTransparency();
     setAttribute(Qt::WA_TranslucentBackground, enableTransparency);
     m_preeditBar->setAttribute(Qt::WA_TranslucentBackground, enableTransparency);
-
-    setAttribute(Qt::WA_X11DoNotAcceptFocus, true);
+    
     setAttribute(Qt::WA_AlwaysShowToolTips, true);
+
+    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::BypassWindowManagerHint | Qt::WindowDoesNotAcceptFocus);
+    KWindowSystem::setState(winId(), NET::SkipTaskbar | NET::SkipPager | NET::KeepAbove);
+    KWindowSystem::setType(winId(), NET::Dock);
 
     m_tray = new KStatusNotifierItem(this);
     m_tray->setAssociatedWidget(m_tray->contextMenu());
